@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.food.zone.R
+import com.food.zone.data.model.signin_data.SignUpData
 import com.food.zone.presentation.component.auth.SocialButton
 import com.food.zone.presentation.component.auth.TextInputLayout
 import com.food.zone.presentation.viewmodel.SignUpViewModel
@@ -39,6 +41,8 @@ fun SignInAccount(signInViewModel : SignUpViewModel = hiltViewModel()) {
     val userName = signInViewModel.name.collectAsStateWithLifecycle()
     val userEmail = signInViewModel.email.collectAsStateWithLifecycle()
     val userPassword = signInViewModel.password.collectAsStateWithLifecycle()
+
+    val signIn = signInViewModel.signinStateFlow.collectAsState()
 
     Box(
         modifier = Modifier
@@ -103,7 +107,13 @@ fun SignInAccount(signInViewModel : SignUpViewModel = hiltViewModel()) {
                     )
 
                     Spacer(modifier = Modifier.height(15.dp))
-                    Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+                    Button(onClick = {
+                        signInViewModel.signUpAccount(signUpData = SignUpData(
+                            name = userName.value,
+                            password = userPassword.value,
+                            email = userEmail.value
+                        ))
+                    }, modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = "SignIn Account"
                         )

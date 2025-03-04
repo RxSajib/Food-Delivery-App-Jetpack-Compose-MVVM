@@ -1,7 +1,9 @@
 package com.food.zone.presentation.di
 
-import com.food.zone.data.api.API
+import com.food.zone.data.local.api.API
 import com.food.zone.data.datamanager.DataManager
+import com.food.zone.data.local.repository.AccountImp
+import com.food.zone.domain.repository.Account
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +26,13 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideApi(retrofit: Retrofit) : API = retrofit.create(API::class.java)
+
+    @Singleton
+    @Provides
+    fun provideRepositoryImp(api: API) : Account = AccountImp(api = api)
+
+    @Singleton
+    @Provides
+    fun provideAccountUserCase(account: Account) : com.food.zone.data.model.use_case.AccountUseCase =
+        com.food.zone.data.model.use_case.AccountUseCase(accountUseCase = com.food.zone.domain.account.Account(account = account))
 }

@@ -16,18 +16,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.lifecycle.lifecycleScope
+import com.food.zone.presentation.screen.AuthScreen
+import com.food.zone.presentation.screen.SignInAccount
 import com.food.zone.ui.theme.FoodZoneTheme
 import com.food.zone.ui.theme.fontFamily
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     var showSplashScreen = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge(
-        )
+       // enableEdgeToEdge()
         installSplashScreen().apply {
             setKeepOnScreenCondition{
                 showSplashScreen
@@ -40,12 +43,7 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             FoodZoneTheme {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                    Text(
-                        text = "Hello World",
-                        fontFamily = fontFamily
-                    )
-                }
+                SignInAccount()
             }
         }
     }

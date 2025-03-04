@@ -70,4 +70,10 @@ dependencies {
 
     //todo splash screen
     implementation(libs.androidx.core.splashscreen)
+
+    //todo hilt compose
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+
 }

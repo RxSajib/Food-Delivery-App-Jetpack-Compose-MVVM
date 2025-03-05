@@ -3,6 +3,7 @@ package com.food.zone.presentation.screen
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,7 @@ import com.food.zone.presentation.component.auth.SocialButton
 private const val TAG = "AuthScreen"
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(signInClick: () -> Unit) {
 
     val imageSize = remember {
         mutableStateOf(IntSize.Zero)
@@ -172,7 +173,10 @@ fun AuthScreen() {
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "SignIn",
-                    style = TextStyle(color = Color.White, fontWeight = FontWeight.Bold)
+                    style = TextStyle(color = Color.White, fontWeight = FontWeight.Bold),
+                    modifier = Modifier.clickable {
+                        signInClick.invoke()
+                    }
                 )
             }
         }
@@ -184,5 +188,5 @@ fun AuthScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    AuthScreen()
+    AuthScreen(signInClick = {})
 }

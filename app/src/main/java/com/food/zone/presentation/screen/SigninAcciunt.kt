@@ -1,5 +1,6 @@
 package com.food.zone.presentation.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,15 +36,32 @@ import com.food.zone.data.model.signin_data.SignUpData
 import com.food.zone.presentation.component.auth.SocialButton
 import com.food.zone.presentation.component.auth.TextInputLayout
 import com.food.zone.presentation.viewmodel.SignUpViewModel
+import com.food.zone.utils.NetworkResult
 
 @Composable
-fun SignInAccount(signInViewModel : SignUpViewModel = hiltViewModel()) {
+fun SignInAccount(signInViewModel : SignUpViewModel = hiltViewModel(), signInSuccess : () -> Unit) {
 
     val userName = signInViewModel.name.collectAsStateWithLifecycle()
     val userEmail = signInViewModel.email.collectAsStateWithLifecycle()
     val userPassword = signInViewModel.password.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     val signIn = signInViewModel.signinStateFlow.collectAsState()
+    when(signIn.value){
+        is NetworkResult.Empty -> {
+
+        }
+        is NetworkResult.Loading -> {
+            Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+        }
+        is NetworkResult.Error -> {
+
+        }
+        is NetworkResult.Success -> {
+            signInSuccess.invoke()
+            Toast.makeText(context, "Loading Success ${signIn.value.data?.token}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -191,5 +210,5 @@ fun SignInAccount(signInViewModel : SignUpViewModel = hiltViewModel()) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    SignInAccount()
+    SignInAccount(signInSuccess = {})
 }

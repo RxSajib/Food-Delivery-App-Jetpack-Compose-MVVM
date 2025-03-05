@@ -27,13 +27,15 @@ class SignUpViewModel @Inject constructor(
     val email = _emailStateFlow.asStateFlow()
     val password = _passwordStateFlow.asStateFlow()
 
-    fun saveName(name : String){
+    fun saveName(name: String) {
         _nameStateFlow.value = name
     }
-    fun saveEmail(email : String){
+
+    fun saveEmail(email: String) {
         _emailStateFlow.value = email
     }
-    fun savePassword(password : String){
+
+    fun savePassword(password: String) {
         _passwordStateFlow.value = password
     }
 
@@ -41,11 +43,12 @@ class SignUpViewModel @Inject constructor(
     private val _signinStateFlow = MutableStateFlow<NetworkResult<Token>>(NetworkResult.Empty())
     val signinStateFlow: StateFlow<NetworkResult<Token>> = _signinStateFlow.asStateFlow()
 
-    fun signUpAccount(signUpData: SignUpData){
+    fun signUpAccount(signUpData: SignUpData) {
         viewModelScope.launch {
-        accountUseCase.accountUseCase.account.signUpAccount(signUpData = signUpData).collectLatest { result ->
-            _signinStateFlow.value = result
-        }
+            accountUseCase.accountUseCase.account.signUpAccount(signUpData = signUpData)
+                .collectLatest { result ->
+                    _signinStateFlow.value = result
+                }
         }
     }
 }

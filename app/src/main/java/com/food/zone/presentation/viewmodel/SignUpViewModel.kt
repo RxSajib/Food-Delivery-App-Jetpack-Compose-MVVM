@@ -1,10 +1,16 @@
 package com.food.zone.presentation.viewmodel
 
+import android.content.Context
+import android.util.Log
+import androidx.credentials.CredentialManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.food.zone.data.model.google.GoogleAccount
 import com.food.zone.data.model.signin_data.SignUpData
 import com.food.zone.data.model.token.Token
 import com.food.zone.data.model.use_case.AccountUseCase
+import com.food.zone.data.model.use_case.CategoryUseCase
+import com.food.zone.data.social.GoogleAuthProvider
 import com.food.zone.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,10 +20,31 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "SignUpViewModel"
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val accountUseCase: AccountUseCase
+    private val accountUseCase: AccountUseCase,
 ) : ViewModel() {
+
+    val credentialManager = GoogleAuthProvider()
+    private var _isLoginWithGoogleStateFlow = MutableStateFlow<NetworkResult<GoogleAccount>>(NetworkResult.Empty())
+    val googleSateFlow = _isLoginWithGoogleStateFlow.asStateFlow()
+
+    fun loginWithGoogle(context: Context){
+        Log.d(TAG, "loginWithGoogle: viewmodel call")
+        viewModelScope.launch {
+
+            _isLoginWithGoogleStateFlow.value = NetworkResult.Loading()
+            val accountInfo = credentialManager.signIn(activityContext = context, credentialManager = CredentialManager.create(context))
+
+            if(accountInfo != null){
+                _isLoginWithGoogleStateFlow.value = NetworkResult.Success(data = accountInfo)
+            }else{
+                _isLoginWithGoogleStateFlow.value = NetworkResult.Error(message = "Something went wrong")
+            }
+        }
+    }
+
 
     private val _nameStateFlow = MutableStateFlow("")
     private val _emailStateFlow = MutableStateFlow("")

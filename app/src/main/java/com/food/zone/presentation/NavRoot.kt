@@ -14,3 +14,6 @@ object AccountScreen
 @Serializable
 object HomeScreen
 
+@Serializable
+data class CDetails(val name : String)
+

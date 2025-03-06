@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,15 +36,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.food.zone.R
 import com.food.zone.presentation.component.auth.SkipButton
 import com.food.zone.presentation.component.auth.SocialButton
+import com.food.zone.presentation.viewmodel.SignUpViewModel
 
 private const val TAG = "AuthScreen"
 
 @Composable
-fun AuthScreen(signInClick: () -> Unit) {
+fun AuthScreen(signInClick: () -> Unit, viewmodel : SignUpViewModel = hiltViewModel()) {
 
+    val context = LocalContext.current
     val imageSize = remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -148,14 +152,18 @@ fun AuthScreen(signInClick: () -> Unit) {
 
                 SocialButton(
                     icon = R.drawable.facebook_icon,
-                    onclick = {},
+                    onclick = {
+                        viewmodel.loginWithGoogle(context = context)
+                    },
                     button_title = "Facebook",
                     bg_color = Color.DarkGray,
                     width = 150.dp
                 )
                 SocialButton(
                     icon = R.drawable.google,
-                    onclick = {},
+                    onclick = {
+                        viewmodel.loginWithGoogle(context = context)
+                    },
                     button_title = "Google",
                     bg_color = Color.DarkGray,
                     width = 150.dp

@@ -82,4 +82,15 @@ dependencies {
     //todo navigation compose
     implementation(libs.androidx.navigation.compose)
 
+    //todo google auth
+    implementation(libs.androidx.credentials)
+    implementation(libs.play.services.auth)
+    implementation(libs.googleid)
+
+    //todo gson android
+    implementation (libs.gson)
+
+    //todo image download dependencies
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }

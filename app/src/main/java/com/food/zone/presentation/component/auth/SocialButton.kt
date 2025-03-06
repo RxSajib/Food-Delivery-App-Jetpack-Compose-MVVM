@@ -28,7 +28,9 @@ import kotlinx.coroutines.flow.Flow
 fun SocialButton(icon: Int, button_title: String, bg_color: Color, onclick: () -> Unit, width : Dp) {
 
     Button(
-        onClick = {}, colors = ButtonDefaults.buttonColors(
+        onClick = {
+            onclick.invoke()
+        }, colors = ButtonDefaults.buttonColors(
             containerColor = bg_color
         ),
         modifier = Modifier.width(width)

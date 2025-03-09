@@ -4,9 +4,12 @@ import com.food.zone.data.local.api.API
 import com.food.zone.data.datamanager.DataManager
 import com.food.zone.data.local.repository.AccountImp
 import com.food.zone.data.local.repository.CategoryImp
+import com.food.zone.data.local.repository.RestaurantsImp
 import com.food.zone.data.model.use_case.CategoryUseCase
+import com.food.zone.data.model.use_case.RestaurantsUseCase
 import com.food.zone.domain.repository.Account
 import com.food.zone.domain.repository.Category
+import com.food.zone.domain.repository.Restaurants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,4 +57,17 @@ object NetworkModule {
     fun getCategoryUseCase(category: Category) : CategoryUseCase = CategoryUseCase(category = com.food.zone.domain.category.Category(category = category))
     //todo category
 
+
+    //todo RestaurantsImp
+    @Provides
+    @Singleton
+    fun provideRestaurantImp(api: API) : Restaurants = RestaurantsImp(api = api)
+
+
+    //todo inject use case also
+    @Provides
+    @Singleton
+    fun provideRestaurantsUseCase(restaurants: Restaurants) : RestaurantsUseCase
+    = RestaurantsUseCase(restaurants = com.food.zone.domain.Restaurants(restaurants = restaurants))
+    //todo RestaurantsImp
 }

@@ -41,7 +41,9 @@ fun CateGoryItem(category: Data, onClick: (Data) -> Unit) {
             .width(65.dp)
             .shadow(
                 elevation = 5.dp,
-                shape = RoundedCornerShape(45.dp)
+                shape = RoundedCornerShape(45.dp),
+                ambientColor = Color.Gray.copy(alpha = 0.5f),
+                spotColor = Color.Gray.copy(alpha = 0.5f)
             )
             .background(color = Color.White)
             .clip(shape = RoundedCornerShape(size = 45.dp))
@@ -58,7 +60,13 @@ fun CateGoryItem(category: Data, onClick: (Data) -> Unit) {
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(size = 40.dp)
-                .clip(shape = CircleShape),
+                .clip(shape = CircleShape)
+                .shadow(
+                    elevation = 2.dp,
+                    shape = CircleShape,
+                    ambientColor = Color.Green,
+                    spotColor = Color.Green
+                ),
             placeholder = painterResource(R.drawable.placeholder),
             error =  painterResource(R.drawable.placeholder)
         )

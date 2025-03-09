@@ -1,4 +1,4 @@
-package com.food.zone.data.model.category
+package com.food.zone.data.model.dto.category
 
 
 import kotlinx.serialization.SerialName
